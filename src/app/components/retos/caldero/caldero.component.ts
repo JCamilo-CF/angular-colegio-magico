@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Pocion, TipoMagiaPocion } from '../../../models/pocion.model';
-
 @Component({
   selector: 'app-caldero',
   standalone: true,
