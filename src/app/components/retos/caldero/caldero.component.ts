@@ -178,9 +178,40 @@ this.pociones = [
   // 4. Ordenamiento: Si ordenAscendente es true, menor a mayor peligro; si false, mayor a menor.
   // =========================================================================
   getPocionesFiltradas(): Pocion[] {
-    // TODO: Reto 5 - Reemplaza este retorno simple por el algoritmo completo
-    return this.pociones;
+    let resultado = [...this.pociones];
+
+    // 1. Filtrar por texto (nombre o descripción, case-insensitive)
+    if (this.filtroTexto && this.filtroTexto.trim() !== '') {
+      const texto = this.filtroTexto.toLowerCase().trim();
+      resultado = resultado.filter(p => 
+        p.nombre.toLowerCase().includes(texto) || 
+        p.descripcion.toLowerCase().includes(texto)
+      );
+    }
+
+    // 2. Filtrar por tipo de magia
+    if (this.filtroTipoMagia && this.filtroTipoMagia !== 'TODAS') {
+      resultado = resultado.filter(p => p.tipoMagia === this.filtroTipoMagia);
+    }
+
+    // 3. Filtrar por nivel de peligro (> 7) si filtroSoloPeligrosas es true
+    if (this.filtroSoloPeligrosas) {
+      resultado = resultado.filter(p => p.nivelPeligro > 7);
+    }
+
+    // 4. Ordenar por nivel de peligro (ascendente o descendente)
+    resultado.sort((a, b) => {
+      if (this.ordenAscendente) {
+        return a.nivelPeligro - b.nivelPeligro;
+      } else {
+        return b.nivelPeligro - a.nivelPeligro;
+      }
+    });
+
+    return resultado;
   }
+
+  
 
   // =========================================================================
   // TODO: Reto 5 - Calcular Estabilidad General del Caldero:
@@ -188,8 +219,16 @@ this.pociones = [
   // - Si hay al menos 1 poción con nivelPeligro >= 5 (y menos de 2 críticas) -> Retornar 'INESTABLE'
   // - De lo contrario -> Retornar 'SEGURO'
   // =========================================================================
-  calcularEstabilidadCaldero(): 'SEGURO' | 'INESTABLE' | 'CRÍTICO' {
-    // TODO: Reto 5 - Reemplaza este retorno por tu lógica de cálculo
+ calcularEstabilidadCaldero(): 'SEGURO' | 'INESTABLE' | 'CRÍTICO' {
+    const criticas = this.pociones.filter(p => p.nivelPeligro >= 8).length;
+    const inestables = this.pociones.filter(p => p.nivelPeligro >= 5).length;
+
+    if (criticas >= 2) {
+      return 'CRÍTICO';
+    }
+    if (inestables >= 1) {
+      return 'INESTABLE';
+    }
     return 'SEGURO';
   }
 
