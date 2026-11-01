@@ -52,38 +52,37 @@ export class CalderoComponent implements OnInit, OnDestroy {
     // Inicia el fuego del caldero (utilizado en el Reto 4)
     this.iniciarFuegoCaldero();
 
-    this.iniciarFuegoCaldero();
 
     // Inicialización de las 3 pociones ancestrales obligatorias (Reto 1)
 this.pociones = [
       {
         id: 1,
         nombre: 'Poción Multijugos',
+        descripcion: 'Permite adoptar la forma física de otra persona.',
         nivelPeligro: 8,
         tiempoCoccionMinutos: 45,
         tipoMagia: 'Transmutacion',
-        descripcion: 'Permite adoptar la apariencia física de otra persona temporalmente.',
-        ingredientes: ['Desmodiano', 'Crisopos', 'Pelo de quien se imita'],
-        estable: true
+        ingredientes: ['Descurainia sophia', 'Sanguinaria', 'Cuerno de bicornio pulverizado'],
+        estable: false
       },
       {
         id: 2,
         nombre: 'Felix Felicis',
+        descripcion: 'Otorga buena suerte extraordinaria a quien la bebe.',
         nivelPeligro: 3,
         tiempoCoccionMinutos: 120,
         tipoMagia: 'Curacion',
-        descripcion: 'Otorga una suerte extraordinaria en todas las empresas.',
-        ingredientes: ['Agua bendita', 'Raíz de mandrágora', 'Esencia de centauro'],
+        ingredientes: ['Ashiftura', 'Huevo de Occamy', 'Tintura de timo'],
         estable: true
       },
       {
         id: 3,
         nombre: 'Filtro de Muertos',
+        descripcion: 'Poción para inducir un sueño extremadamente profundo.',
         nivelPeligro: 10,
         tiempoCoccionMinutos: 90,
         tipoMagia: 'Prohibida',
-        descripcion: 'Induce a un sueño sumamente profundo y cercano al trance.',
-        ingredientes: ['Raíz de valeriana', 'Asfódelo en polvo', 'Té de higuera'],
+        ingredientes: ['Infusión de ajenjo', 'Polvo de raíz de asfódelo', 'Jugo de soporífera'],
         estable: false
       }
     ];
