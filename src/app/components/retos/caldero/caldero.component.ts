@@ -107,8 +107,11 @@ this.pociones = [
   // - nuevoNivelPeligro esté entre 1 y 10 inclusive.
   // =========================================================================
   esFormularioValido(): boolean {
-    // TODO: Reto 3 - Reemplaza 'return false' por tus validaciones
-    return false;
+    const nombreValido = this.nuevoNombre && this.nuevoNombre.trim().length >= 3;
+    const tiempoValido = Number(this.nuevoTiempoCoccion) > 0;
+    const peligroValido = Number(this.nuevoNivelPeligro) >= 1 && Number(this.nuevoNivelPeligro) <= 10;
+    
+    return Boolean(nombreValido && tiempoValido && peligroValido);
   }
 
   // =========================================================================
@@ -122,7 +125,26 @@ this.pociones = [
   prepararPocion(): void {
     if (!this.esFormularioValido()) return;
 
-    // TODO: Reto 3 - Construye el objeto Pocion, haz push a this.pociones y resetea las variables
+    const nuevaPocion: Pocion = {
+      id: Date.now(),
+      nombre: this.nuevoNombre.trim(),
+      descripcion: this.nuevaDescripcion.trim() || 'Sin descripción detallada.',
+      nivelPeligro: Number(this.nuevoNivelPeligro),
+      tiempoCoccionMinutos: Number(this.nuevoTiempoCoccion),
+      tipoMagia: this.nuevoTipoMagia,
+      ingredientes: ['Ingrediente mágico base'],
+      estable: Number(this.nuevoNivelPeligro) < 8
+    };
+
+    this.pociones.push(nuevaPocion);
+    this.guardarEstadoGiratiempo();
+
+    // esto limpia esto los inputs del formulario
+    this.nuevoNombre = '';
+    this.nuevaDescripcion = '';
+    this.nuevoNivelPeligro = 1;
+    this.nuevoTiempoCoccion = 10;
+    this.nuevoTipoMagia = 'Curacion';
   }
 
   eliminarPocion(id: number): void {
