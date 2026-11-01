@@ -160,7 +160,10 @@ this.pociones = [
   // usando clearInterval() para evitar fugas de memoria o maldiciones residuales.
   // =========================================================================
   ngOnDestroy(): void {
-    // TODO: Reto 4 - Escribe aquí tu clearInterval
+    if (this.timerIntervalId) {
+      clearInterval(this.timerIntervalId);
+      this.timerIntervalId = null;
+    } //el intervalo limpio
   }
 
   // -------------------------------------------------------------------------
