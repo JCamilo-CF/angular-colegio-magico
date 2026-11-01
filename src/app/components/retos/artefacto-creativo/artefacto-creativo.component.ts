@@ -19,7 +19,7 @@ export interface RegistroTurno {
   tipo: 'damage' | 'shield' | 'heal';
 }
 
-@Component({
+  @Component({
   selector: 'app-artefacto-creativo',
   standalone: true,
   imports: [CommonModule, FormsModule],
@@ -29,33 +29,30 @@ export interface RegistroTurno {
 export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
   // =========================================================================
   // 🎨 RETO 7: EL LIENZO CREATIVO (30% DE LA CALIFICACIÓN)
+  // Tema: Combate de Supervivencia en Minecraft (Steve vs Zombi / Nether)
   // =========================================================================
-  // EJEMPLO ILUSTRATIVO: "El Simulador de Duelos del Club de Duelo de Hogwarts"
-  // Los estudiantes pueden personalizar este simulador o construir su propio
-  // artefacto mágico interactivo (ej: Mapa del Merodeador, Tienda de Ollivander,
-  // Herbario Mágico) cumpliendo la rúbrica de evaluación.
 
   // 1. Estado Interactivo (Jugador vs Rival)
-  nombreMago: string = 'Harry Potter';
+  nombreMago: string = 'Steve';
   saludMago: number = 100;
-  energiaMago: number = 100;
+  energiaMago: number = 100; // Barra de Hambre / Estamina
 
-  nombreRival: string = 'Draco Malfoy';
+  nombreRival: string = 'Zombi Blindado';
   saludRival: number = 100;
   energiaRival: number = 100;
 
-  // Estado general del duelo: 'PREPARACION' | 'EN_CURSO' | 'VICTORIA' | 'DERROTA'
+  // Estado general del combate: 'PREPARACION' | 'EN_CURSO' | 'VICTORIA' | 'DERROTA'
   estadoDuelo: 'PREPARACION' | 'EN_CURSO' | 'VICTORIA' | 'DERROTA' = 'PREPARACION';
 
   numeroTurno: number = 1;
-  arenaOscura: boolean = false;
+  arenaOscura: boolean = false; // Modo Cueva Oscura / Nether
 
-  // Grimorio de hechizos disponibles para el aprendiz
+  // Grimorio de habilidades / acciones disponibles
   hechizosDuelo: HechizoDuelo[] = [
-    { id: 1, nombre: 'Expelliarmus', tipo: 'Ataque', poder: 25, costoEnergia: 20, descripcion: 'Desarma al oponente con un rayo rojo escarlata.' },
-    { id: 2, nombre: 'Protego', tipo: 'Defensa', poder: 30, costoEnergia: 15, descripcion: 'Crea un escudo mágico que absorbe el siguiente impacto.' },
-    { id: 3, nombre: 'Episkey', tipo: 'Sanacion', poder: 20, costoEnergia: 25, descripcion: 'Restaura vitalidad y cura heridas menores.' },
-    { id: 4, nombre: 'Stupefy', tipo: 'Ataque', poder: 35, costoEnergia: 35, descripcion: 'Aturde al rival con una potente onda expansiva.' }
+    { id: 1, nombre: 'Espada de Diamante', tipo: 'Ataque', poder: 28, costoEnergia: 20, descripcion: 'Golpe crítico con filo de diamante directo al mob.' },
+    { id: 2, nombre: 'Escudo de Roble', tipo: 'Defensa', poder: 30, costoEnergia: 15, descripcion: 'Bloquea el ataque frontal absorbiendo el impacto.' },
+    { id: 3, nombre: 'Manzana Dorada', tipo: 'Sanacion', poder: 25, costoEnergia: 25, descripcion: 'Regeneración rápida de corazones de salud.' },
+    { id: 4, nombre: 'Arco con Flechas', tipo: 'Ataque', poder: 35, costoEnergia: 30, descripcion: 'Disparo a distancia certero con alto daño.' }
   ];
 
   historialDuelo: RegistroTurno[] = [];
@@ -63,8 +60,8 @@ export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
 
   // 2. Lifecycle Hook: ngOnInit
   ngOnInit(): void {
-    console.log('🎨 Reto 7: Artefacto Creativo montado en el Gran Salón.');
-    // Temporizador ambiental sutil de recarga de energía
+    console.log('⛏️ Reto 7: Servidor de Supervivencia Minecraft iniciado.');
+    // Temporizador ambiental sutil de regeneración de estamina (hambre)
     this.ambientMusicInterval = setInterval(() => {
       if (this.estadoDuelo === 'EN_CURSO') {
         this.energiaMago = Math.min(100, this.energiaMago + 2);
@@ -73,7 +70,7 @@ export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
-  // 3. Iniciar Duelo
+  // 3. Iniciar Combate
   iniciarDuelo(): void {
     this.estadoDuelo = 'EN_CURSO';
     this.saludMago = 100;
@@ -84,15 +81,15 @@ export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
     this.historialDuelo = [
       {
         turno: 1,
-        emisor: 'Profesor Flitwick',
-        hechizo: 'Apertura de Duelo',
-        efecto: '¡Varitas en alto! Hagan una reverencia y comiencen.',
+        emisor: 'Sistema de Juego',
+        hechizo: 'Aparición de Mobs',
+        efecto: '¡La noche ha caído! Prepárate para sobrevivir en la arena.',
         tipo: 'shield'
       }
     ];
   }
 
-  // 4. Lanzar Hechizo del Jugador
+  // 4. Ejecutar Acción del Jugador
   lanzarHechizo(hechizo: HechizoDuelo): void {
     if (this.estadoDuelo !== 'EN_CURSO') return;
     if (this.energiaMago < hechizo.costoEnergia) return;
@@ -105,7 +102,7 @@ export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
         turno: this.numeroTurno,
         emisor: this.nombreMago,
         hechizo: hechizo.nombre,
-        efecto: `¡Impacto directo! Causa ${hechizo.poder} puntos de daño a ${this.nombreRival}.`,
+        efecto: `¡Ataque exitoso! Causa ${hechizo.poder} de daño a ${this.nombreRival}.`,
         tipo: 'damage'
       });
     } else if (hechizo.tipo === 'Sanacion') {
@@ -114,7 +111,7 @@ export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
         turno: this.numeroTurno,
         emisor: this.nombreMago,
         hechizo: hechizo.nombre,
-        efecto: `Cura mágica: Restaura ${hechizo.poder} puntos de vitalidad.`,
+        efecto: `Consumo de alimento: Restaura ${hechizo.poder} corazones de vida.`,
         tipo: 'heal'
       });
     } else {
@@ -122,12 +119,12 @@ export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
         turno: this.numeroTurno,
         emisor: this.nombreMago,
         hechizo: hechizo.nombre,
-        efecto: `Escudo activo: ${hechizo.descripcion}`,
+        efecto: `Defensa activa: ${hechizo.descripcion}`,
         tipo: 'shield'
       });
     }
 
-    // Verificar si el rival cayó
+    // Verificar si el rival fue derrotado
     if (this.saludRival <= 0) {
       this.estadoDuelo = 'VICTORIA';
       return;
@@ -142,7 +139,7 @@ export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       if (this.estadoDuelo !== 'EN_CURSO') return;
 
-      const opcionesRival = ['Serpensortia', 'Tarantallegra', 'Rictusempra', 'Protego'];
+      const opcionesRival = ['Mordisco Feroz', 'Zarpa de Zombi', 'Aplastamiento', 'Emboscada'];
       const elegido = opcionesRival[Math.floor(Math.random() * opcionesRival.length)];
       const danoRival = Math.floor(Math.random() * 20) + 10;
 
@@ -153,7 +150,7 @@ export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
         turno: this.numeroTurno,
         emisor: this.nombreRival,
         hechizo: elegido,
-        efecto: `¡El rival contraataca con ${elegido}! Te causa ${danoRival} de daño.`,
+        efecto: `¡${this.nombreRival} usa ${elegido}! Te inflige ${danoRival} de daño.`,
         tipo: 'damage'
       });
 
@@ -163,7 +160,7 @@ export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
     }, 600);
   }
 
-  // 6. Alternar ambientación de la arena
+  // 6. Alternar ambientación de la arena (Modo Cueva / Nether)
   toggleArena(): void {
     this.arenaOscura = !this.arenaOscura;
   }
@@ -173,6 +170,6 @@ export class ArtefactoCreativoComponent implements OnInit, OnDestroy {
     if (this.ambientMusicInterval) {
       clearInterval(this.ambientMusicInterval);
     }
-    console.log('🎨 Reto 7: Artefacto Creativo desmontado y recursos limpiados.');
+    console.log('⛏️ Reto 7: Servidor cerrado y recursos liberados.');
   }
 }
